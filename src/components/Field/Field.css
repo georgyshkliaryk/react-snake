@@ -1,0 +1,10 @@
+.field__container {
+    border: solid black 2px;
+    margin: 5em auto;
+    width: 17em;
+}
+.field__square {
+    border: 1px solid grey;
+    display: inline-block;
+    width: 2em;
+}
