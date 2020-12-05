@@ -98,7 +98,6 @@ export default class Field extends React.Component<any, {}> {
     let snakeArr: number[] = [];
     if (e.keyCode === 39) {
       snakeArr = this.state.snake.slice(0);
-      console.log(snakeArr);
       let arr = snakeArr.slice(0);
       for (let i = 1; i < snakeArr.length; i++) {
         snakeArr[i] = arr[i - 1];
@@ -108,12 +107,13 @@ export default class Field extends React.Component<any, {}> {
       } else {
         snakeArr[0] = snakeArr[0] + 1;
       }
-      let snakeBody: any = [];
-      snakeBody = snakeArr.slice(0);
-      snakeBody.shift();
-      if (snakeArr.length > 3 && snakeBody.includes(snakeArr)) {
-        alert("you lost!");
-        
+      this.setState({
+        snakeHead: snakeArr[0],
+      });
+      let body = snakeArr.slice(1);
+      if (body.includes(snakeArr[0])) {
+        alert("You have lost!");
+        window.location.reload();
       }
 
       await this.setState({
@@ -144,7 +144,6 @@ export default class Field extends React.Component<any, {}> {
     let snakeArr: number[] = [];
     if (e.keyCode === 37) {
       snakeArr = this.state.snake.slice(0);
-      console.log(snakeArr);
       let arr = snakeArr.slice(0);
       for (let i = 1; i < snakeArr.length; i++) {
         snakeArr[i] = arr[i - 1];
@@ -153,6 +152,14 @@ export default class Field extends React.Component<any, {}> {
         snakeArr[0] = snakeArr[0] + 7;
       } else {
         snakeArr[0] = snakeArr[0] - 1;
+      }
+      this.setState({
+        snakeHead: snakeArr[0],
+      });
+      let body = snakeArr.slice(1);
+      if (body.includes(snakeArr[0])) {
+        alert("You have lost!");
+        window.location.reload();
       }
       await this.setState({
         snake: snakeArr.slice(0),
@@ -182,7 +189,6 @@ export default class Field extends React.Component<any, {}> {
     let snakeArr: number[] = [];
     if (e.keyCode === 38) {
       snakeArr = this.state.snake.slice(0);
-      console.log(snakeArr);
       let arr = snakeArr.slice(0);
       for (let i = 1; i < snakeArr.length; i++) {
         snakeArr[i] = arr[i - 1];
@@ -191,6 +197,15 @@ export default class Field extends React.Component<any, {}> {
         snakeArr[0] = snakeArr[0] + 56;
       } else {
         snakeArr[0] = snakeArr[0] - 8;
+      }
+      this.setState({
+        snakeHead: snakeArr[0],
+      });
+
+      let body = snakeArr.slice(1);
+      if (body.includes(snakeArr[0])) {
+        alert("You have lost!");
+        window.location.reload();
       }
 
       await this.setState({
@@ -221,7 +236,6 @@ export default class Field extends React.Component<any, {}> {
     let snakeArr: number[] = [];
     if (e.keyCode === 40) {
       snakeArr = this.state.snake.slice(0);
-      console.log(snakeArr);
       let arr = snakeArr.slice(0);
       for (let i = 1; i < snakeArr.length; i++) {
         snakeArr[i] = arr[i - 1];
@@ -231,6 +245,16 @@ export default class Field extends React.Component<any, {}> {
       } else {
         snakeArr[0] = snakeArr[0] + 8;
       }
+      this.setState({
+        snakeHead: snakeArr[0],
+      });
+
+      let body = snakeArr.slice(1);
+      if (body.includes(snakeArr[0])) {
+        alert("You have lost!");
+        window.location.reload();
+      }
+
       await this.setState({
         snake: snakeArr.slice(0),
       });
@@ -261,7 +285,6 @@ export default class Field extends React.Component<any, {}> {
     document.addEventListener("keydown", this.goRight, false);
     document.addEventListener("keydown", this.goUp, false);
     document.addEventListener("keydown", this.goDown, false);
-    console.log(this.state.reward);
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this.goLeft, false);
@@ -276,9 +299,20 @@ export default class Field extends React.Component<any, {}> {
         {this.state.field.map((value, index) => {
           let snakeStyle = {};
           let rewardStyle = {};
+          let headStyle = {};
+          if (this.state.snakeHead === this.state.field[index]) {
+            headStyle = {
+              border: "green solid 4px",
+            };
+          } else {
+            headStyle = {
+              border: "white solid 4px",
+            };
+          }
           if (this.state.snake.includes(index)) {
             snakeStyle = {
               backgroundColor: "black",
+              color: "black",
             };
           } else {
             snakeStyle = {
@@ -287,13 +321,11 @@ export default class Field extends React.Component<any, {}> {
           }
           if (this.state.reward === this.state.field[index]) {
             rewardStyle = {
-              border: "red 1px solid",
-              color: "red",
+              border: "red 2px solid",
             };
           } else {
             rewardStyle = {
-              border: "solid 1px grey",
-              color: "black",
+              border: "solid white 2px",
             };
           }
           return (
@@ -303,7 +335,7 @@ export default class Field extends React.Component<any, {}> {
               id={`${index}`}
               style={Object.assign({}, snakeStyle, rewardStyle)}
             >
-              {value}
+              <div className="field__subsquare" style={headStyle}>{value}</div>
             </div>
           );
         })}
