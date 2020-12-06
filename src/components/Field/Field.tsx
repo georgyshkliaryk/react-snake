@@ -6,6 +6,9 @@ interface IState {
   snakeHead: number;
   snake: number[];
   reward: number;
+  score: number;
+  prevScore: number;
+  maxScore: number;
 }
 
 export default class Field extends React.Component<any, {}> {
@@ -14,6 +17,9 @@ export default class Field extends React.Component<any, {}> {
     snakeHead: 0,
     snake: [],
     reward: 0,
+    score: 0,
+    prevScore: 0,
+    maxScore: 0,
   };
   constructor(props: any) {
     super(props);
@@ -87,6 +93,9 @@ export default class Field extends React.Component<any, {}> {
       snakeHead: 36,
       snake: [36],
       reward: Math.floor(Math.random() * (63 - 0)) + 0,
+      score: 0,
+      prevScore: Number.parseInt(localStorage.getItem("score") || "0"),
+      maxScore: Number.parseInt(localStorage.getItem("maxScore") || "0"),
     };
     this.goDown = this.goDown.bind(this);
     this.goUp = this.goUp.bind(this);
@@ -110,9 +119,24 @@ export default class Field extends React.Component<any, {}> {
       this.setState({
         snakeHead: snakeArr[0],
       });
-      let body = snakeArr.slice(1);
-      if (body.includes(snakeArr[0])) {
-        alert("You have lost!");
+      if (snakeArr.length > 3) {
+        let body = snakeArr.slice(2);
+        if (body.includes(snakeArr[0])) {
+          alert("You have lost!");
+
+          if (this.state.score > this.state.prevScore) {
+            localStorage.setItem("maxScore", `${this.state.score}`);
+          } else {
+            // localStorage.setItem("maxScore", `${this.state.prevScore}`);
+          }
+          await this.setState({
+            prevScore: localStorage.getItem("score"),
+          });
+          window.location.reload();
+        }
+      }
+      if (snakeArr.length === 63) {
+        alert("You have won!");
         window.location.reload();
       }
 
@@ -120,6 +144,10 @@ export default class Field extends React.Component<any, {}> {
         snake: snakeArr.slice(0),
       });
       if (this.state.snake[0] === this.state.reward) {
+        await this.setState({
+          score: this.state.score + 1,
+        });
+        localStorage.setItem("score", `${this.state.score}`);
         let newarr = this.state.snake.slice(0);
         newarr.push(this.state.reward);
         let isNotRandom: boolean = true;
@@ -156,15 +184,34 @@ export default class Field extends React.Component<any, {}> {
       this.setState({
         snakeHead: snakeArr[0],
       });
-      let body = snakeArr.slice(1);
-      if (body.includes(snakeArr[0])) {
-        alert("You have lost!");
+      if (snakeArr.length > 3) {
+        let body = snakeArr.slice(2);
+        if (body.includes(snakeArr[0])) {
+          alert("You have lost!");
+
+          if (this.state.score > this.state.prevScore) {
+            localStorage.setItem("maxScore", `${this.state.score}`);
+          } else {
+            // localStorage.setItem("maxScore", `${this.state.prevScore}`);
+          }
+          await this.setState({
+            prevScore: localStorage.getItem("score"),
+          });
+          window.location.reload();
+        }
+      }
+      if (snakeArr.length === 63) {
+        alert("You have won!");
         window.location.reload();
       }
       await this.setState({
         snake: snakeArr.slice(0),
       });
       if (this.state.snake[0] === this.state.reward) {
+        await this.setState({
+          score: this.state.score + 1,
+        });
+        localStorage.setItem("score", `${this.state.score}`);
         let newarr = this.state.snake.slice(0);
         newarr.push(this.state.reward);
         let isNotRandom: boolean = true;
@@ -201,10 +248,24 @@ export default class Field extends React.Component<any, {}> {
       this.setState({
         snakeHead: snakeArr[0],
       });
+      if (snakeArr.length > 3) {
+        let body = snakeArr.slice(2);
+        if (body.includes(snakeArr[0])) {
+          alert("You have lost!");
 
-      let body = snakeArr.slice(1);
-      if (body.includes(snakeArr[0])) {
-        alert("You have lost!");
+          if (this.state.score > this.state.prevScore) {
+            localStorage.setItem("maxScore", `${this.state.score}`);
+          } else {
+            // localStorage.setItem("maxScore", `${this.state.prevScore}`);
+          }
+          await this.setState({
+            prevScore: localStorage.getItem("score"),
+          });
+          window.location.reload();
+        }
+      }
+      if (snakeArr.length === 63) {
+        alert("You have won!");
         window.location.reload();
       }
 
@@ -212,6 +273,10 @@ export default class Field extends React.Component<any, {}> {
         snake: snakeArr.slice(0),
       });
       if (this.state.snake[0] === this.state.reward) {
+        await this.setState({
+          score: this.state.score + 1,
+        });
+        localStorage.setItem("score", `${this.state.score}`);
         let newarr = this.state.snake.slice(0);
         newarr.push(this.state.reward);
         let isNotRandom: boolean = true;
@@ -248,10 +313,24 @@ export default class Field extends React.Component<any, {}> {
       this.setState({
         snakeHead: snakeArr[0],
       });
+      if (snakeArr.length > 3) {
+        let body = snakeArr.slice(1);
+        if (body.includes(snakeArr[0]) && snakeArr[0]) {
+          alert("You have lost!");
 
-      let body = snakeArr.slice(1);
-      if (body.includes(snakeArr[0])) {
-        alert("You have lost!");
+          if (this.state.score > this.state.prevScore) {
+            localStorage.setItem("maxScore", `${this.state.score}`);
+          } else {
+            // localStorage.setItem("maxScore", `${this.state.prevScore}`);
+          }
+          await this.setState({
+            prevScore: localStorage.getItem("score"),
+          });
+          window.location.reload();
+        }
+      }
+      if (snakeArr.length === 63) {
+        alert("You have won!");
         window.location.reload();
       }
 
@@ -259,6 +338,10 @@ export default class Field extends React.Component<any, {}> {
         snake: snakeArr.slice(0),
       });
       if (this.state.snake[0] === this.state.reward) {
+        await this.setState({
+          score: this.state.score + 1,
+        });
+        localStorage.setItem("score", `${this.state.score}`);
         let newarr = this.state.snake.slice(0);
         newarr.push(this.state.reward);
         let isNotRandom: boolean = true;
@@ -285,6 +368,10 @@ export default class Field extends React.Component<any, {}> {
     document.addEventListener("keydown", this.goRight, false);
     document.addEventListener("keydown", this.goUp, false);
     document.addEventListener("keydown", this.goDown, false);
+
+    this.setState({
+      score: 0,
+    });
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this.goLeft, false);
@@ -295,50 +382,57 @@ export default class Field extends React.Component<any, {}> {
 
   render() {
     return (
-      <div className="field__container">
-        {this.state.field.map((value, index) => {
-          let snakeStyle = {};
-          let rewardStyle = {};
-          let headStyle = {};
-          if (this.state.snakeHead === this.state.field[index]) {
-            headStyle = {
-              border: "green solid 4px",
-            };
-          } else {
-            headStyle = {
-              border: "white solid 4px",
-            };
-          }
-          if (this.state.snake.includes(index)) {
-            snakeStyle = {
-              backgroundColor: "black",
-              color: "black",
-            };
-          } else {
-            snakeStyle = {
-              backgroundColor: "white",
-            };
-          }
-          if (this.state.reward === this.state.field[index]) {
-            rewardStyle = {
-              border: "red 2px solid",
-            };
-          } else {
-            rewardStyle = {
-              border: "solid white 2px",
-            };
-          }
-          return (
-            <div
-              className="field__square"
-              key={index}
-              id={`${index}`}
-              style={Object.assign({}, snakeStyle, rewardStyle)}
-            >
-              <div className="field__subsquare" style={headStyle}>{value}</div>
-            </div>
-          );
-        })}
+      <div>
+        <div className="field__container">
+          {this.state.field.map((value, index) => {
+            let snakeStyle = {};
+            let rewardStyle = {};
+            let headStyle = {};
+            if (this.state.snakeHead === this.state.field[index]) {
+              headStyle = {
+                border: "green solid 4px",
+              };
+            } else {
+              headStyle = {
+                border: "white solid 4px",
+              };
+            }
+            if (this.state.snake.includes(index)) {
+              snakeStyle = {
+                backgroundColor: "black",
+                color: "black",
+              };
+            } else {
+              snakeStyle = {
+                backgroundColor: "white",
+              };
+            }
+            if (this.state.reward === this.state.field[index]) {
+              rewardStyle = {
+                border: "red 2px solid",
+              };
+            } else {
+              rewardStyle = {
+                border: "solid white 2px",
+              };
+            }
+            return (
+              <div
+                className="field__square"
+                key={index}
+                id={`${index}`}
+                style={Object.assign({}, snakeStyle, rewardStyle)}
+              >
+                <div className="field__subsquare" style={headStyle}>
+                  {value}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ fontWeight: "bold" }}>Score: {this.state.score}</div>
+        <div>Previous score: {this.state.prevScore}</div>
+        <div>Max score: {this.state.maxScore}</div>
       </div>
     );
   }
